@@ -1,0 +1,32 @@
+﻿@page
+@using System.Data.SqlClient;
+@{
+
+    try
+    {
+        String first_name = Request.Query["first_name"];
+
+
+        String connectionString = "Data Source=DESKTOP-20C6ETA\\SQLEXPRESS;Initial Catalog=Employee_page;Integrated Security=True";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            String sql = "DELETE From employee_details " +"WHERE first_name=@first_name";
+
+          using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@first_name", first_name);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+    }
+    catch (Exception ex)
+    {
+
+    }
+    Response.Redirect("/employees/Index");
+
+    
+}
